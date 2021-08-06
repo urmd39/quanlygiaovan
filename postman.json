@@ -1,0 +1,185 @@
+{
+	"info": {
+		"_postman_id": "f26d4379-6eba-4341-af7f-c1197d1dda57",
+		"name": "Transport Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api/v1",
+			"item": [
+				{
+					"name": "vehicles",
+					"item": [
+						{
+							"name": "Get details of all vehicles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/vehicles",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vehicles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get details of vehicle with ID",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/vehicles/:vehicleId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"vehicles",
+										":vehicleId"
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "travels",
+					"item": [
+						{
+							"name": "Get details all travel histories of vehicle",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId"
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get details all travel histories of vehicle with filter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId/filter?date=01/07/2021",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "01/07/2021"
+										}
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get distance traveled (km) of vehicle in day",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId/distance?date=01/07/2021",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "01/07/2021"
+										}
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:8080/api/v1"
+		},
+		{
+			"key": "vehicles",
+			"value": "localhost:8080/api/v1/vehicles"
+		},
+		{
+			"key": "travels",
+			"value": "localhost:8080/api/v1/travels"
+		}
+	]
+}
