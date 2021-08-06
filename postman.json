@@ -1,7 +1,8 @@
 {
 	"info": {
-		"_postman_id": "f26d4379-6eba-4341-af7f-c1197d1dda57",
+		"_postman_id": "acfebbd9-27c5-4219-86ff-7ac4da96fc9a",
 		"name": "Transport Management API",
+		"description": "Transport Management API\n- Version: 1.0\n- Description: This is a service for manage transport vehicle\n- Host: localhost:8080\n- BasePath: /",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -12,7 +13,7 @@
 					"name": "vehicles",
 					"item": [
 						{
-							"name": "Get details of all vehicles",
+							"name": "GetVehicles",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -24,12 +25,13 @@
 									"path": [
 										"vehicles"
 									]
-								}
+								},
+								"description": "Get details of all vehicles"
 							},
 							"response": []
 						},
 						{
-							"name": "Get details of vehicle with ID",
+							"name": "GetVehicle",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -45,10 +47,12 @@
 									"variable": [
 										{
 											"key": "vehicleId",
-											"value": ""
+											"value": "",
+											"description": "ID of vehicle"
 										}
 									]
-								}
+								},
+								"description": "Get details of vehicle with ID"
 							},
 							"response": []
 						}
@@ -58,10 +62,151 @@
 					"name": "travels",
 					"item": [
 						{
-							"name": "Get details all travel histories of vehicle",
+							"name": "GetTravelHistoriesOfVehicle",
 							"request": {
 								"method": "GET",
 								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId/all",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId",
+										"all"
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5",
+											"description": "ID of vehicle"
+										}
+									]
+								},
+								"description": "Get details all travel histories of vehicle"
+							},
+							"response": []
+						},
+						{
+							"name": "GetTravelHistoriesVehicleWithFilter",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId/filter?month=2021-08",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId",
+										"filter"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2021-08-01",
+											"description": "Filter with date (YYYY-MM-DD)",
+											"disabled": true
+										},
+										{
+											"key": "month",
+											"value": "2021-08",
+											"description": "Filter with month(YYYY-MM)"
+										}
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5",
+											"description": "ID of vehicle"
+										}
+									]
+								},
+								"description": "Get details all travel histories of vehicle with time filter"
+							},
+							"response": []
+						},
+						{
+							"name": "GetTravelHistoriesOnDate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:date",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":date"
+									],
+									"variable": [
+										{
+											"key": "date",
+											"value": null,
+											"description": "Date (YYYY-MM-DD)"
+										}
+									]
+								},
+								"description": "Get all travel histories on date"
+							},
+							"response": []
+						},
+						{
+							"name": "GetDistanceTraveled",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/travels/:vehicleId/distance?date=2021-08-01&month=",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"travels",
+										":vehicleId",
+										"distance"
+									],
+									"query": [
+										{
+											"key": "date",
+											"value": "2021-08-01",
+											"description": "Get distance traveled on Date (YYYY-MM-DD)"
+										},
+										{
+											"key": "month",
+											"value": "",
+											"description": "Get distance traveled on Month (YYYY-MM)"
+										}
+									],
+									"variable": [
+										{
+											"key": "vehicleId",
+											"value": "610a4946c816f391280de1f5",
+											"description": "ID of vehicle"
+										}
+									]
+								},
+								"description": "Get distance traveled (km) of vehicle in day"
+							},
+							"response": []
+						},
+						{
+							"name": "AddTravelHistoryOfVehicle",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"location\": {\n        \"coordinates\": [\n            1.5,\n            1.5\n        ],\n        \"type\": \"Point\"\n    },\n    \"transportId\": \"610ce5a6389bd57bf80633e2\",\n    \"updatedAt\": \"2021-08-03T12:02:00+07:00\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{baseUrl}}/travels/:vehicleId",
 									"host": [
@@ -74,76 +219,55 @@
 									"variable": [
 										{
 											"key": "vehicleId",
-											"value": "610a4946c816f391280de1f5"
+											"value": "610a4946c816f391280de1f5",
+											"description": "Vehicle ID"
 										}
 									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get details all travel histories of vehicle with filter",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/travels/:vehicleId/filter?date=01/07/2021",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"travels",
-										":vehicleId",
-										"filter"
-									],
-									"query": [
-										{
-											"key": "date",
-											"value": "01/07/2021"
-										}
-									],
-									"variable": [
-										{
-											"key": "vehicleId",
-											"value": "610a4946c816f391280de1f5"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Get distance traveled (km) of vehicle in day",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/travels/:vehicleId/distance?date=01/07/2021",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"travels",
-										":vehicleId",
-										"distance"
-									],
-									"query": [
-										{
-											"key": "date",
-											"value": "01/07/2021"
-										}
-									],
-									"variable": [
-										{
-											"key": "vehicleId",
-											"value": "610a4946c816f391280de1f5"
-										}
-									]
-								}
+								},
+								"description": "Add travel history of vehicle"
 							},
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "GetStatistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/statistics/:vehicleId?month=2021-08",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"statistics",
+								":vehicleId"
+							],
+							"query": [
+								{
+									"key": "month",
+									"value": "2021-08",
+									"description": "Get statistic on month (YYYY-MM)"
+								},
+								{
+									"key": "date",
+									"value": "2021-08-01",
+									"description": "Get statistic on date (YYYY-MM-DD)",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "vehicleId",
+									"value": "610a4946c816f391280de1f5",
+									"description": "Vehicle ID"
+								}
+							]
+						},
+						"description": "Get statistic of vehicle on time"
+					},
+					"response": []
 				}
 			]
 		}
