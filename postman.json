@@ -224,7 +224,7 @@
 										}
 									]
 								},
-								"description": "Add travel history of vehicle"
+								"description": "Add travel history of vehicle\n- body json example:\n\n{\\\n  \"location\": {\\\n     \"coordinates\": [0,0],\\\n     \"type\": \"Point\"\\\n  },\\\n  \"transportId\": \"610ce5a6389bd57bf80633e2\",\\\n  \"updatedAt\": \"2021-08-03T12:02:00+07:00\"\\\n}"
 							},
 							"response": []
 						}
