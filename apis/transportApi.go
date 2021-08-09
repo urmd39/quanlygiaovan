@@ -9,7 +9,6 @@ import (
 	"quanlygiaovan/entities"
 
 	"github.com/go-chi/chi"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 // TODO: Get list vehicles
@@ -79,7 +78,7 @@ func AddTravelHistory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
 	body, _ := ioutil.ReadAll(r.Body)
-	var th bson.M
+	var th entities.TravelHistoryWithoutId
 	json.Unmarshal(body, &th)
 	travelHistory := control.AddTravelHistory(vehicleId, th)
 	json.NewEncoder(w).Encode(travelHistory)

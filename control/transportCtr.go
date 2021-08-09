@@ -16,7 +16,7 @@ import (
 const YMD = "2006-01-02"
 
 // TODO: Get list vehicles
-func GetVehicles() (list []bson.M) {
+func GetVehicles() (list []entities.Vehicle) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
 	collection := client.Database("quanlygiaovan").Collection("vehicle_info")
@@ -26,7 +26,7 @@ func GetVehicles() (list []bson.M) {
 		log.Fatal(err)
 	}
 	for cursor.Next(ctx) {
-		var vehicle bson.M
+		var vehicle entities.Vehicle
 		if err = cursor.Decode(&vehicle); err != nil {
 			log.Fatal(err)
 		}
@@ -36,7 +36,7 @@ func GetVehicles() (list []bson.M) {
 }
 
 // TODO: Get vehicle by id
-func GetVehicle(idStr string) (vehicle bson.M) {
+func GetVehicle(idStr string) (vehicle entities.Vehicle) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
 	collection := client.Database("quanlygiaovan").Collection("vehicle_info")
@@ -52,7 +52,7 @@ func GetVehicle(idStr string) (vehicle bson.M) {
 }
 
 // TODO: Get list travel histories of vehicle by vehicle id
-func GetTravelHistoriesOfVehicle(vehicleId string) (list []bson.M) {
+func GetTravelHistoriesOfVehicle(vehicleId string) (list []entities.TravelHistory) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
 	collection := client.Database("quanlygiaovan").Collection("travel_history")
@@ -66,11 +66,11 @@ func GetTravelHistoriesOfVehicle(vehicleId string) (list []bson.M) {
 		log.Fatal(err)
 	}
 	for cursor.Next(ctx) {
-		var vehicle bson.M
-		if err = cursor.Decode(&vehicle); err != nil {
+		var travelHistory entities.TravelHistory
+		if err = cursor.Decode(&travelHistory); err != nil {
 			log.Fatal(err)
 		}
-		list = append(list, vehicle)
+		list = append(list, travelHistory)
 	}
 	return list
 }
@@ -198,7 +198,7 @@ func GetDistance(longitude1 float64, latitude1 float64, longitude2 float64,
 }
 
 // TODO: Save travel history record of vehicle to Database
-func AddTravelHistory(vehicleId string, travelHistory bson.M) bson.M {
+func AddTravelHistory(vehicleId string, th entities.TravelHistoryWithoutId) (travelHistory entities.TravelHistory) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
 	collection := client.Database("quanlygiaovan").Collection("travel_history")
@@ -207,12 +207,16 @@ func AddTravelHistory(vehicleId string, travelHistory bson.M) bson.M {
 	if err != nil {
 		log.Fatal(err)
 	}
-	travelHistory["vehicleId"] = id_vehicle
-	addResult, err := collection.InsertOne(ctx, travelHistory)
+	th.VehicleID = id_vehicle
+	addResult, err := collection.InsertOne(ctx, th)
 	if err != nil {
 		log.Fatal(err)
 	}
-	travelHistory["_id"] = addResult.InsertedID
+	id := addResult.InsertedID.(primitive.ObjectID)
+	travelHistory = entities.TravelHistory{
+		TravelHistoryWithoutId: th,
+		TravelHistoryID:        id,
+	}
 	return travelHistory
 }
 

@@ -17,11 +17,15 @@ type Location struct {
 }
 
 type TravelHistory struct {
-	TravelHistoryID primitive.ObjectID `json:"_id" bson:"_id"`
-	VehicleID       primitive.ObjectID `json:"vehicleId" bson:"vehicleId"`
-	UpdatedAt       time.Time          `json:"updatedAt" bson:"updatedAt"`
-	Location        Location           `json:"location" bson:"location"`
-	TransportID     primitive.ObjectID `json:"transportId" bson:"transportId"`
+	TravelHistoryID        primitive.ObjectID `json:"_id" bson:"_id"`
+	TravelHistoryWithoutId `bson:",inline"`
+}
+
+type TravelHistoryWithoutId struct {
+	VehicleID   primitive.ObjectID `json:"vehicleId" bson:"vehicleId"`
+	UpdatedAt   time.Time          `json:"updatedAt" bson:"updatedAt"`
+	Location    Location           `json:"location" bson:"location"`
+	TransportID primitive.ObjectID `json:"transportId" bson:"transportId"`
 }
 
 type Statistics struct {
