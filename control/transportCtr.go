@@ -12,8 +12,10 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+// string-time convert type
 const YMD = "2006-01-02"
 
+// TODO: Get list vehicles
 func GetVehicles() (list []bson.M) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -33,6 +35,7 @@ func GetVehicles() (list []bson.M) {
 	return list
 }
 
+// TODO: Get vehicle by id
 func GetVehicle(idStr string) (vehicle bson.M) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -48,6 +51,7 @@ func GetVehicle(idStr string) (vehicle bson.M) {
 	return vehicle
 }
 
+// TODO: Get list travel histories of vehicle by vehicle id
 func GetTravelHistoriesOfVehicle(vehicleId string) (list []bson.M) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -71,6 +75,7 @@ func GetTravelHistoriesOfVehicle(vehicleId string) (list []bson.M) {
 	return list
 }
 
+// TODO: Get list all travel histories on date (YYYY-MM-DD)
 func GetTravelHistoriesOnDate(date string) (list []entities.TravelHistory) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -94,6 +99,7 @@ func GetTravelHistoriesOnDate(date string) (list []entities.TravelHistory) {
 	return list
 }
 
+// TODO: Get list travel histories of vehicle on date (YYYY-MM-DD)
 func GetTravelHistoriesVehicleOnDate(vehicleId string, date string) (list []entities.TravelHistory) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -121,6 +127,7 @@ func GetTravelHistoriesVehicleOnDate(vehicleId string, date string) (list []enti
 	return list
 }
 
+// TODO: Get list travel histories of vehicle on month (YYYY-MM)
 func GetTravelHistoriesVehicleOnMonth(vehicleId string, month string) (list []entities.TravelHistory) {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
@@ -133,8 +140,9 @@ func GetTravelHistoriesVehicleOnMonth(vehicleId string, month string) (list []en
 
 	findOptions := options.Find().SetSort(bson.D{{"updatedAt", 1}})
 	d, _ := time.Parse(YMD, month+"-01")
-	cursor, err := collection.Find(ctx, bson.M{"vehicleId": id, "updatedAt": bson.M{"$gte": primitive.NewDateTimeFromTime(d),
-		"$lte": primitive.NewDateTimeFromTime(d.AddDate(0, 1, 0))}}, findOptions)
+	cursor, err := collection.Find(ctx, bson.M{"vehicleId": id,
+		"updatedAt": bson.M{"$gte": primitive.NewDateTimeFromTime(d),
+			"$lt": primitive.NewDateTimeFromTime(d.AddDate(0, 1, 0))}}, findOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -148,6 +156,7 @@ func GetTravelHistoriesVehicleOnMonth(vehicleId string, month string) (list []en
 	return list
 }
 
+// TODO: Get distance traveled of vehicle on time (date: YYYY-MM-DD / month: YYYY-MM)
 func GetDistanceTraveledOnTime(vehicleId string, time string) (distance float64) {
 	var list []entities.TravelHistory
 	l := len(time)
@@ -176,6 +185,7 @@ func GetDistanceTraveledOnTime(vehicleId string, time string) (distance float64)
 	return distance
 }
 
+// TODO: func to calculate distance traveled
 func GetDistance(longitude1 float64, latitude1 float64, longitude2 float64,
 	latitude2 float64) (distance float64) {
 	const R = 6378
@@ -187,9 +197,8 @@ func GetDistance(longitude1 float64, latitude1 float64, longitude2 float64,
 	return distance
 }
 
-func AddTravelHistory(vehicleId string,
-	travelHistory bson.M) bson.M {
-
+// TODO: Save travel history record of vehicle to Database
+func AddTravelHistory(vehicleId string, travelHistory bson.M) bson.M {
 	client, ctx := Connected()
 	defer client.Disconnect(ctx)
 	collection := client.Database("quanlygiaovan").Collection("travel_history")
@@ -207,6 +216,7 @@ func AddTravelHistory(vehicleId string,
 	return travelHistory
 }
 
+// TODO: Get statistics of vehicle on time (date: YYYY-MM-DD / month: YYYY-MM)
 func GetStatistics(vehicleId string, date string, month string) (statistics entities.Statistics) {
 	var list []entities.TravelHistory
 	if month != "" {

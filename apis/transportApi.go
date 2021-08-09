@@ -12,12 +12,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+// TODO: Get list vehicles
 func GetVehicles(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	list := control.GetVehicles()
 	json.NewEncoder(w).Encode(list)
 }
 
+// TODO: Get vehicle by id
 func GetVehicle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	id := chi.URLParam(r, "vehicleId")
@@ -25,6 +27,7 @@ func GetVehicle(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(vehicle)
 }
 
+// TODO: Get list travel histories of vehicle by vehicle id
 func GetTravelHistoriesOfVehicle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
@@ -32,6 +35,7 @@ func GetTravelHistoriesOfVehicle(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(list)
 }
 
+// TODO: Get list travel histories on date
 func GetTravelHistoriesOnDate(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	date := chi.URLParam(r, "date")
@@ -39,6 +43,7 @@ func GetTravelHistoriesOnDate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(list)
 }
 
+// TODO: Get travel histories of vehicle with time filter (YYYY-MM-DD / YYYY-MM)
 func GetTravelHistoriesVehicleWithFilter(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
@@ -53,6 +58,7 @@ func GetTravelHistoriesVehicleWithFilter(w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(list)
 }
 
+// TODO: Get distance traveled of vehicle on time (YYYY-MM-DD / YYYY-MM)
 func GetDistanceTraveled(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
@@ -68,6 +74,7 @@ func GetDistanceTraveled(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(message)
 }
 
+// TODO: Save travel history (location) of vehicle to Database
 func AddTravelHistory(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
@@ -78,6 +85,7 @@ func AddTravelHistory(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(travelHistory)
 }
 
+// TODO: Get statistics of vehicle on time (YYYY-MM-DD / YYYY-MM)
 func GetStatistics(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	vehicleId := chi.URLParam(r, "vehicleId")
